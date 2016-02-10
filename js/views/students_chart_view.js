@@ -2,7 +2,7 @@ define(['jquery', 'backbone', 'underscore', 'highcharts'],
  function($, Backbone, _, highcharts) {
 	var StudentChartView = Backbone.View.extend({ 
 //The HTML Element 
-	el: '#totalCharts',
+	el: '#totalChartsView',
 	initialize: function (options) {
         debugger
        this.data = options.data;
