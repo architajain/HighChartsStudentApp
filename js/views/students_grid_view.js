@@ -1,24 +1,24 @@
-define(['jquery', 'backbone', 'underscore'],
- function($, Backbone, _) {
+define(['jquery', 'backbone', 'underscore', 'views/grid_child'],
+ function($, Backbone, _, StudentsGridChildView) {
 	var StudentGridView = Backbone.View.extend({ 
 //The HTML Element 
 	el: '#studentTable', 
 	//Render View 
 	render: function () { 
 	    var viewHtml = '<table border="1">'; 
-	    viewHtml += "<tr><td>Name</td><td>Roll Number</td><td>Address</td></tr>"; 
+	    viewHtml += "<tr><th>Name</th><th>Roll Number</th></tr>"; 
 	    //Iterate through the collection 
 	    _.each(this.collection.models, function (model) { 
-	        var studRecHtml = '<tr><td>' + model.get('name') + '</td><td>' +
-	         model.get('rollNumber') + '</td><td>' +
-	         model.get('address') + '</td></tr>'; 
-	        viewHtml += studRecHtml; 
-	    }); 
-	    viewHtml +='</table>' 
 	    //Set the View 
-	    $(this.el).html(viewHtml); 
-	} 
-	});
+	    debugger
+	    var studRecHtml = new StudentsGridChildView({model:model}).render().el;
+	    viewHtml += studRecHtml; 
+	}, this);
+
+	    viewHtml +='</table>' 
+	    $(this.el).html(viewHtml);
+	}
+});
 	return StudentGridView;
 });
 
