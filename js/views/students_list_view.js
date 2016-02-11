@@ -15,6 +15,7 @@ define(['backbone', 'underscore', 'text!../../templates/studentsListViewTemplate
 			console.log('StudentsListView initialize');
       this.studentsDetailsCollection = new StudentsDetailsCollection();
 			this.listenTo(this.collection, 'add', this.renderStudentsGrid);
+      this.listenTo(this.studentCollection,'fetch:students', this.fetchStudentDetails);
 			this.render();
 		},
 		
@@ -31,7 +32,8 @@ define(['backbone', 'underscore', 'text!../../templates/studentsListViewTemplate
   	    	studentModel.set('address', this.$el.find('textarea[name="address"]').val());
           if(!this.isGridRenderd) {
             var studentsGridView =  new StudentsGridView({
-            collection : this.collection
+            collection : this.collection,
+            studentCollection : this.studentsDetailsCollection
           });
           studentsGridView.render();
           this.isGridRenderd = true;
@@ -83,6 +85,7 @@ define(['backbone', 'underscore', 'text!../../templates/studentsListViewTemplate
       //this.collection (rollnumber) - add
 
       fetchStudentDetails: function() {
+        debugger
         var that = this;
         that.studentsDetailsCollection.fetch({
           success: function(model, response) {

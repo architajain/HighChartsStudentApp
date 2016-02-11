@@ -5,13 +5,18 @@ define(['jquery', 'backbone', 'underscore', 'views/grid_child', 'text!../../temp
 	el: '#studentTable',
 	template: _.template(addEditStudentTemplate, {}),
 
-	initialize: function() {
+	initialize: function(options) {
+		this.studentCollection = options.studentCollection
 		this.listenTo(this.collection, 'add', this.renderChildView);
 	},
 
 	renderChildView: function(model) {
+		debugger
 	    //Set the View */
-	    var studRecHtml = new StudentsGridChildView({model:model}).render().el;
+	    var studRecHtml = new StudentsGridChildView({
+	    	model:model,
+	    	studentCollection: this.studentCollection
+	    }).render().el;
 	    this.$el.find('tbody').append(studRecHtml);
 
 	},

@@ -4,10 +4,12 @@ define(['jquery', 'backbone', 'underscore', 'text!../../templates/studentsGridDa
     tagName : 'tr',
     template: _.template(studentsGridDataTemplate,{}),
     events: {
-    	'click #deleteStudentBtn': 'deleteStudentBtnClicked'
+    	'click #deleteStudentBtn': 'deleteStudentBtnClicked',
+        'click #chartStudentBtn': 'renderChart'
     },
-    initialize: function(){
-    	this.model.bind('remove', this.modelChanged, this)
+    initialize: function(options){
+        this.studentCollection = options.studentCollection;
+    	this.model.bind('remove', this.modelChanged, this);
     },
 
     render : function() {
@@ -20,7 +22,18 @@ define(['jquery', 'backbone', 'underscore', 'text!../../templates/studentsGridDa
     },
 
     renderChart: function() {
-
+        debugger
+        var studentCollection = this.studentCollection;
+        if(this.studentCollection.length === 0) {
+            this.studentCollection.trigger('fetch:students');
+        }
+        var arr = _.where(studentCollection, {'rollNumber' : this.model.get('rollNumber')});
+        arr.name = arr.rollNumber;
+        arr.data  = arr.marks;
+        var studentsChartView =  new StudentsChartView({
+            data : arr
+          });
+         studentsChartView.render();
     },
     
     modelChanged: function(){
