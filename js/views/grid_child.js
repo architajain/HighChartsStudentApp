@@ -18,6 +18,10 @@ define(['jquery', 'backbone', 'underscore', 'text!../../templates/studentsGridDa
     deleteStudentBtnClicked: function() {
     	this.model.destroy();
     },
+
+    renderChart: function() {
+
+    },
     
     modelChanged: function(){
     	this.remove();

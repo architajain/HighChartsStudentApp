@@ -24,15 +24,17 @@ define(['backbone', 'underscore', 'text!../../templates/studentsListViewTemplate
   	 },
 
   	 addEditButtonClicked: function() {
+      debugger
   	    	var studentModel = new StudentModel();
   	    	studentModel.set('name', this.$el.find('input[name="name"]').val());
   	    	studentModel.set('rollNumber', this.$el.find('input[name="rollNumber"]').val());
   	    	studentModel.set('address', this.$el.find('textarea[name="address"]').val());
-          if(this.collection.length === 0) {
+          if(!this.isGridRenderd) {
             var studentsGridView =  new StudentsGridView({
             collection : this.collection
           });
           studentsGridView.render();
+          this.isGridRenderd = true;
          }
   	    	this.collection.add(studentModel);
   	    },
