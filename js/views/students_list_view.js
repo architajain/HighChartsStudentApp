@@ -14,7 +14,7 @@ define(['backbone', 'underscore', 'text!../../templates/studentsListViewTemplate
 		initialize: function(options) {
 			console.log('StudentsListView initialize');
       this.studentsDetailsCollection = new StudentsDetailsCollection();
-			this.listenTo(this.collection, 'add', this.renderStudentsGrid)
+			this.listenTo(this.collection, 'add', this.renderStudentsGrid);
 			this.render();
 		},
 		
@@ -28,15 +28,23 @@ define(['backbone', 'underscore', 'text!../../templates/studentsListViewTemplate
   	    	studentModel.set('name', this.$el.find('input[name="name"]').val());
   	    	studentModel.set('rollNumber', this.$el.find('input[name="rollNumber"]').val());
   	    	studentModel.set('address', this.$el.find('textarea[name="address"]').val());
+          if(this.collection.length === 0) {
+            var studentsGridView =  new StudentsGridView({
+            collection : this.collection
+          });
+          studentsGridView.render();
+         }
   	    	this.collection.add(studentModel);
   	    },
 
-  	 renderStudentsGrid: function() {
-  	    	var studentsGridView =  new StudentsGridView({
-  	    		collection : this.collection
-  	    	});
-  	    	studentsGridView.render();
-  	    },
+  /*	 renderStudentsGrid: function() {
+      if(this.collection.length === 0) {
+            var studentsGridView =  new StudentsGridView({
+            collection : this.collection
+          });
+          studentsGridView.render();
+      }
+    },*/
 
       totalChartsClicked: function() {
         debugger

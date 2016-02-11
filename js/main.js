@@ -28,6 +28,7 @@ require.config({
 });
 	require(['app'],
 		function(App) {
+			debugger
 			console.log('Application started');
 			App.initialize();
 	});

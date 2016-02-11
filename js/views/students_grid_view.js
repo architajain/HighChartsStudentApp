@@ -1,22 +1,33 @@
-define(['jquery', 'backbone', 'underscore', 'views/grid_child'],
- function($, Backbone, _, StudentsGridChildView) {
+define(['jquery', 'backbone', 'underscore', 'views/grid_child', 'text!../../templates/addEditStudentTemplate.html'],
+ function($, Backbone, _, StudentsGridChildView, addEditStudentTemplate) {
 	var StudentGridView = Backbone.View.extend({ 
 //The HTML Element 
-	el: '#studentTable', 
-	//Render View 
-	render: function () { 
-	    var viewHtml = '<table border="1">'; 
-	    viewHtml += "<tr><th>Name</th><th>Roll Number</th></tr>"; 
-	    //Iterate through the collection 
-	    _.each(this.collection.models, function (model) { 
-	    //Set the View 
-	    debugger
-	    var studRecHtml = new StudentsGridChildView({model:model}).render().el;
-	    viewHtml += studRecHtml; 
-	}, this);
+	el: '#studentTable',
+	template: _.template(addEditStudentTemplate, {}),
 
-	    viewHtml +='</table>' 
-	    $(this.el).html(viewHtml);
+	initialize: function() {
+		this.listenTo(this.collection, 'add', this.renderChildView);
+	},
+
+	renderChildView: function() {
+		debugger
+		_.each(this.collection.models, function (model) { 
+	    	debugger
+	    //Set the View 
+	    var studRecHtml = new StudentsGridChildView({model:model}).render().el;
+	    this.$el.find('tbody').append(studRecHtml);
+	}, this);
+	},
+
+	//Render View 
+	render: function () {  
+	    $(this.el).html(this.template);
+	   /* _.each(this.collection.models, function (model) { 
+	    	debugger
+	    //Set the View 
+	    var studRecHtml = new StudentsGridChildView({model:model}).render().el;
+	    this.$el.find('tbody').append(studRecHtml);
+	}, this);*/
 	}
 });
 	return StudentGridView;
