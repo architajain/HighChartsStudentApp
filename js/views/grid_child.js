@@ -1,5 +1,6 @@
-define(['jquery', 'backbone', 'underscore', 'text!../../templates/studentsGridDataTemplate.html'],
- function($, Backbone, _, studentsGridDataTemplate) {
+define(['jquery', 'backbone', 'underscore', 'text!../../templates/studentsGridDataTemplate.html',
+    'views/students_chart_view'],
+ function($, Backbone, _, studentsGridDataTemplate, StudentsChartView) {
 	var StudentsGridChildView = Backbone.View.extend({
     tagName : 'tr',
     template: _.template(studentsGridDataTemplate,{}),
@@ -23,17 +24,11 @@ define(['jquery', 'backbone', 'underscore', 'text!../../templates/studentsGridDa
 
     renderChart: function() {
         debugger
-        var studentCollection = this.studentCollection;
         if(this.studentCollection.length === 0) {
-            this.studentCollection.trigger('fetch:students');
+            this.studentCollection.trigger('fetch:students', true, this.model);
+        } else {
+            this.studentCollection.trigger('fetch:students', this.model);
         }
-        var arr = _.where(studentCollection, {'rollNumber' : this.model.get('rollNumber')});
-        arr.name = arr.rollNumber;
-        arr.data  = arr.marks;
-        var studentsChartView =  new StudentsChartView({
-            data : arr
-          });
-         studentsChartView.render();
     },
     
     modelChanged: function(){
